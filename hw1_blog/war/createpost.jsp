@@ -33,24 +33,37 @@
 <p>Hello!
 <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
 to make a post.</p>
-
-    <div class="blog-header">
-        <h1 class="blog-title">Join the Dank Side</h1>
-        <p class="lead blog-description">The official blog of Eric Maras and Daniel Yun</p>
-    </div>
-<br></br>
-<br></br>
 <%
     }
 %>
 
+    <div class="blog-header">
+        <h1 class="blog-title"><a href="/blog.jsp">Join the Dank Side</a></h1>
+        <p class="lead blog-description">The official blog of Eric Maras and Daniel Yun</p>
+    </div>
+
+<%
+     if (user != null) {
+%>
     <form action="/blogpost" method="post">
       <div><textarea name="title" rows="1" cols="20" style="resize:none"></textarea></div>
       <br></br>
       <div><textarea name="content" rows="5" cols="60"></textarea></div>
-      <div><input type="submit" value="New Post"/></div>
+      <div><input class="btn" type="submit" value="New Post"/></div>
       <input type="hidden" name="blogName" value="${fn:escapeXml(blogName)}"/>
     </form>
+    <a href="/blog.jsp" style="text-decoration:none;color:black">
+        <input class="btn" type="button" value="Cancel" />
+    </a>
+<%
+     } else {
+%>
+<p>You must
+<a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
+to post.</p>
+<%
+     }
+%>
 
   </body>
 </html>

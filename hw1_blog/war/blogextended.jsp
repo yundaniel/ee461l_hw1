@@ -54,8 +54,7 @@ to make a post.</p>
         <p>No posts here :(</p>
         <%
     } else {
-        for (int i = 0; i < 3 && i < posts.size(); i++) {
-            Post Post = posts.get(i);
+        for (Post Post : posts) {
             pageContext.setAttribute("Post_user", Post.getUser());
             pageContext.setAttribute("Post_title", Post.getTitle());
             pageContext.setAttribute("Post_content", Post.getContent());
@@ -67,13 +66,11 @@ to make a post.</p>
             </blockquote>
             <%
         }
-        if (posts.size() > 3) {
-            %>
-            <a href="/blogextended.jsp" style="text-decoration:none;color:black">
-                <input class="btn" type="button" value="View more" />
+        %>
+            <a href="/blog.jsp" style="text-decoration:none;color:black">
+                <input class="btn" type="button" value="View less" />
             </a>
-            <%
-        }
+        <%
     }
 %>
 
