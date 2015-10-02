@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/recache</url>
+    <description>Repopulate the cache every 2 minutes</description>
+    <schedule>every 2 minutes</schedule>
+  </cron>
+  <cron>
+    <url>/cron/emailCron</url>
+    <description>Mail out a daily report at 5pm</description>
+    <schedule>every day 17:00</schedule>
+    <timezone>US/Central</timezone>
+  </cron>
+  
+</cronentries>
