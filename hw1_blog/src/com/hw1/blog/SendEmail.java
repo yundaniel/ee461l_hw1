@@ -1,9 +1,12 @@
 package com.hw1.blog;
 
 import java.util.*;
+
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
+
+import com.googlecode.objectify.ObjectifyService;
 
 public class SendEmail
 {
@@ -45,7 +48,24 @@ public class SendEmail
 	         message.setSubject("Daily Digest");
 	
 	         // Now set the actual message
-	         message.setText("This is actual message");
+	         StringBuffer emailMessage = new StringBuffer("This is a digest of all the posts in the last 24 hours:");
+	         
+	         
+	         List<Post> posts = ObjectifyService.ofy().load().type(Post.class).list(); /////////////Need to get an array of posts here!!!
+	 		 Date date = new Date();
+	 		
+	         for(Post post: posts){
+	        	 if (date.after(post.getDate())){
+	        		 emailMessage.append(post.getTitle());
+	        		 emailMessage.append("<br/>");
+	        		 emailMessage.append(post.getTitle());
+	        		 emailMessage.append("<br/>");
+	        		 emailMessage.append(post.getContent());
+	        		 emailMessage.append("<br/>");
+	        	 }
+	         }
+	         message.setText(emailMessage.toString(), "CHARSET_UTF_8", "html");
+	         
 	
 	         // Send message
 	         Transport.send(message);
