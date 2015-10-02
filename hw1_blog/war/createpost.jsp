@@ -33,6 +33,11 @@
 <p>Hello!
 <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
 to make a post.</p>
+
+    <div class="blog-header">
+        <h1 class="blog-title">Join the Dank Side</h1>
+        <p class="lead blog-description">The official blog of Eric Maras and Daniel Yun</p>
+    </div>
 <br></br>
 <br></br>
 <%

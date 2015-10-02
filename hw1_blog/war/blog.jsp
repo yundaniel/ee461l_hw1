@@ -15,7 +15,7 @@
   </head>
 
   <body>
-
+    
 <%
     String blogName = request.getParameter("blogName");
     if (blogName == null) {
@@ -38,6 +38,11 @@ to make a post.</p>
 <%
     }
 %>
+
+    <div class="blog-header">
+        <h1 class="blog-title">Join the Dank Side</h1>
+        <p class="lead blog-description">The official blog of Eric Maras and Daniel Yun</p>
+    </div>
 
 <%
     ObjectifyService.register(Post.class);
