@@ -39,6 +39,7 @@ to make a post.</p>
 
     <div class="blog-header">
         <h1 class="blog-title"><a href="/blog.jsp">Join the Dank Side</a></h1>
+        <img src="img/harold.jpg" alt="Harold" style="width:400px;height:267px;">
         <p class="lead blog-description">The official blog of Eric Maras and Daniel Yun</p>
     </div>
 

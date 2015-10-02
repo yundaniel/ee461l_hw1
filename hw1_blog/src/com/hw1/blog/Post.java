@@ -26,6 +26,10 @@ public class Post implements Comparable<Post> {
     public User getUser() {
         return user;
     }
+    
+    public Date getDate() {
+    	return date;
+    }
 
     public String getTitle() {
         return title;
