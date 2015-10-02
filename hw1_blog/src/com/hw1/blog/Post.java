@@ -31,6 +31,10 @@ public class Post implements Comparable<Post> {
     	return date;
     }
 
+    public Date getDate() {
+    	return date;
+    }
+    
     public String getTitle() {
         return title;
     }

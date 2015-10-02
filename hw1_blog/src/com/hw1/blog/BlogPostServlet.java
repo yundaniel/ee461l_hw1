@@ -30,9 +30,8 @@ public class BlogPostServlet extends HttpServlet {
         String title = req.getParameter("title");
         String content = req.getParameter("content");
         Post post = new Post(user, title, content);
- 
         ofy().save().entity(post).now();   // synchronous
- 
+        
         resp.sendRedirect("/blog.jsp");
     }
 }
