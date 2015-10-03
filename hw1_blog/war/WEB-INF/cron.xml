@@ -8,7 +8,8 @@
   <cron>
     <url>/cron/emailCron</url>
     <description>Mail out a daily report at 5pm</description>
-    <schedule>every day 17:00</schedule>
+    <schedule>every 1 minutes</schedule>
+    <!-- <schedule>every day 17:00</schedule> -->
     <timezone>US/Central</timezone>
   </cron>
   

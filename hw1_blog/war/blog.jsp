@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.hw1.blog.BlogPostServlet" %>
+<%@ page import="com.hw1.blog.SubscribeServlet" %>
 <%@ page import="com.hw1.blog.Post" %>
+<%@ page import="com.hw1.blog.Email" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Collections" %>
 <%@ page import="com.google.appengine.api.users.User" %>
@@ -26,15 +28,32 @@
     User user = userService.getCurrentUser();
     if (user != null) {
       pageContext.setAttribute("user", user);
+     
+    String email_str = user.getEmail(); 
+    ObjectifyService.register(Email.class);
+    List<Email> emails = ObjectifyService.ofy().load().type(Email.class).list();
 %>
 <p>Hello, ${fn:escapeXml(user.nickname)}! (You can
 <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
+<form action="/subscribe" method="post">
+<%
+        if(!emails.contains(new Email(email_str))) {
+%>
+            <div><input class="btn" type="submit" value="Subscribe"/></div>
+<%
+        } else {
+%>
+            <div><input class="btn" type="submit" value="Unsubscribe"/></div>
+<%
+        }
+%>
+        </form>
 <%
     } else {
 %>
 <p>Hello!
 <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-to make a post.</p>
+to make a post or subscribe.</p>
 <%
     }
 %>
@@ -43,6 +62,7 @@ to make a post.</p>
         <h1 class="blog-title"><a href="/blog.jsp">Join the Dank Side</a></h1>
         <img src="img/harold.jpg" alt="Harold" style="width:400px;height:267px;">
         <p class="lead blog-description">The official blog of Eric Maras and Daniel Yun</p>
+        
     </div>
 
 <%

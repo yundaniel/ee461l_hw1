@@ -2,6 +2,9 @@
 package com.hw1.blog;
 
 import java.util.Date;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import com.google.appengine.api.users.User;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -20,7 +23,7 @@ public class Post implements Comparable<Post> {
         this.user = user;
         this.title = title;
         this.content = content;
-        date = new Date();
+        date = Calendar.getInstance(TimeZone.getTimeZone("US/Central")).getTime();;
     }
 
     public User getUser() {

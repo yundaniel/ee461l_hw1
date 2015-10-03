@@ -10,12 +10,8 @@ import com.googlecode.objectify.ObjectifyService;
 
 public class SendEmail
 {
-     
-      // Recipient's email ID needs to be mentioned.
-      //String to = "ericmaras@gmail.com";
-
       // Sender's email ID needs to be mentioned
-      String from = "ericmaras@gmail.com";
+      String from = "daniel.yun.tx@gmail.com";
 
       // Assuming you are sending email from localhost
       String host = "localhost";

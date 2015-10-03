@@ -12,13 +12,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
 import java.util.Date;
+import java.util.Calendar;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.googlecode.objectify.ObjectifyService;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
+import com.hw1.blog.Email;
 
 @SuppressWarnings("serial")
 public class CronServlet extends HttpServlet {
@@ -29,15 +30,14 @@ public void doGet(HttpServletRequest req, HttpServletResponse resp)throws IOExce
 	SendEmail sender = new SendEmail();
 	try {
 		_logger.info("Cron Job has been executed");
-		String to = "ericmaras@gmail.com";
-		////////We need to store subscribers somewhere
-		////ArrayList<String> subscribers = new ArrayList<>()
+		String to = "daniel.yun.tx@gmail.com";
 		
+		List<Email> emails = ObjectifyService.ofy().load().type(Email.class).list();
 		
-		//////////
-		String[] addresses = {to};
+		//String[] addresses = emails.toArray(new String[emails.size()]);
+		//_logger.info(addresses.toString());
+		 String[] addresses = {to};
 		List<Post> posts = ObjectifyService.ofy().load().type(Post.class).list(); /////////////Need to get an array of posts here!!!
-		Date date = new Date();
 		
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
@@ -45,19 +45,17 @@ public void doGet(HttpServletRequest req, HttpServletResponse resp)throws IOExce
         String title = req.getParameter("title");
         String content = req.getParameter("content");
         
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("US/Central"));
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        Date date = cal.getTime();
 	
 		for (Post post : posts){
-			if (date.after(post.getDate())){
+			if (date.before(post.getDate())){
 				sender.send(addresses);
 				break;
 			}
 		}
-		
-		
-		
-		//Put your logic here
-		//BEGIN
-		//END
+
 	}
 	catch (Exception ex) {
 		//Log any exceptions in your Cron Job

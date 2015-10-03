@@ -1,6 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.hw1.blog.BlogPostServlet" %>
+<%@ page import="com.hw1.blog.SubscribeServlet" %>
 <%@ page import="com.hw1.blog.Post" %>
+<%@ page import="com.hw1.blog.Email" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Collections" %>
 <%@ page import="com.google.appengine.api.users.User" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
@@ -24,9 +28,26 @@
     User user = userService.getCurrentUser();
     if (user != null) {
       pageContext.setAttribute("user", user);
+    
+    String email_str = user.getEmail();  
+    ObjectifyService.register(Email.class);
+    List<Email> emails = ObjectifyService.ofy().load().type(Email.class).list();
 %>
 <p>Hello, ${fn:escapeXml(user.nickname)}! (You can
 <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
+<form action="/subscribe" method="post">
+<%
+        if(!emails.contains(new Email(email_str))) {
+%>
+            <div><input class="btn" type="submit" value="Subscribe"/></div>
+<%
+        } else {
+%>
+            <div><input class="btn" type="submit" value="Unsubscribe"/></div>
+<%
+        }
+%>
+        </form>
 <%
     } else {
 %>
