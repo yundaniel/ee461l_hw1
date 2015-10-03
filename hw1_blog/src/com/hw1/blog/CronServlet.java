@@ -23,42 +23,46 @@ import com.hw1.blog.Email;
 
 @SuppressWarnings("serial")
 public class CronServlet extends HttpServlet {
+	
+	static {
+		ObjectifyService.register(Post.class);
+        ObjectifyService.register(Email.class);
+    }
+	
 private static final Logger _logger = Logger.getLogger(CronServlet.class.getName());
 
 public void doGet(HttpServletRequest req, HttpServletResponse resp)throws IOException {
 	
 	SendEmail sender = new SendEmail();
 	try {
-		_logger.info("Cron Job has been executed");
-		String to = "daniel.yun.tx@gmail.com";
-		
 		List<Email> emails = ObjectifyService.ofy().load().type(Email.class).list();
-		
-		//String[] addresses = emails.toArray(new String[emails.size()]);
-		//_logger.info(addresses.toString());
-		 String[] addresses = {to};
-		List<Post> posts = ObjectifyService.ofy().load().type(Post.class).list(); /////////////Need to get an array of posts here!!!
-		
-		UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();
-        
-        String title = req.getParameter("title");
-        String content = req.getParameter("content");
-        
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("US/Central"));
-        cal.add(Calendar.DAY_OF_YEAR, -1);
-        Date date = cal.getTime();
-	
-		for (Post post : posts){
-			if (date.before(post.getDate())){
-				sender.send(addresses);
-				break;
+		if (emails.size() != 0) {
+			
+			String[] addresses = new String[emails.size()];
+			for(int i = 0; i < emails.size(); i++) {
+				addresses[i] = emails.get(i).toString();
 			}
+			
+			List<Post> posts = ObjectifyService.ofy().load().type(Post.class).list(); /////////////Need to get an array of posts here!!!
+	        
+	        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("US/Central"));
+	        cal.add(Calendar.DAY_OF_YEAR, -1);
+	        Date date = cal.getTime();
+		
+			for (Post post : posts){
+				if (date.before(post.getDate())){
+					sender.send(addresses);
+					_logger.info("Email sent");
+					break;
+				}
+			}
+			
 		}
 
+		_logger.info("Cron Job has been executed");
 	}
 	catch (Exception ex) {
-		//Log any exceptions in your Cron Job
+		_logger.info("Exception: " + ex);
 	}
 	}
 	

@@ -88,13 +88,11 @@ to make a post or subscribe.</p>
             </blockquote>
             <%
         }
-        if (posts.size() > 3) {
-            %>
-            <a href="/blogextended.jsp" style="text-decoration:none;color:black">
-                <input class="btn" type="button" value="View more" />
-            </a>
-            <%
-        }
+        %>
+        <a href="/blogextended.jsp" style="text-decoration:none;color:black">
+            <input class="btn" type="button" value="View more" />
+        </a>
+        <%
     }
 %>
 
